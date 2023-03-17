@@ -41,4 +41,4 @@ function Invoke-MyFunctionWithParameters {
 }
 
 New-Alias -Name imfwp -Value Invoke-MyFunctionWithParameters
-Export-ModuleMember -Function Invoke-MyFunctionWithParameters -Alias XYZ
+Export-ModuleMember -Function Invoke-MyFunctionWithParameters -Alias imfwp

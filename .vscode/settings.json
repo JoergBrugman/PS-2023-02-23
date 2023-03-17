@@ -1,4 +1,5 @@
 {
     "editor.mouseWheelZoom": true,
-    "editor.snippetSuggestions": "bottom"
+    "editor.snippetSuggestions": "bottom",
+    "files.encoding": "windows1252"
 }
