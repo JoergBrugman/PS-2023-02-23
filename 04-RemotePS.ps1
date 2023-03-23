@@ -59,6 +59,11 @@ $sb = { param($p1) Write-Host "Auf Rechner $p1 : $(whoami.exe)" }
 foreach ($c in $computers) {
     Invoke-Command -ComputerName $c.Computer -ScriptBlock $sb -ArgumentList ($c.Computer) -Credential $cred -Authentication Negotiate
 }
+
+foreach ($c in $computers) {
+    Invoke-Command -ComputerName $c.Computer -ScriptBlock $sb -ArgumentList ($c.Computer)  -Authentication NegotiateWithImplicitCredential
+}
+
 #endregion
 
 
