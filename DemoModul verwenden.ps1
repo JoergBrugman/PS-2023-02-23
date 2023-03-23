@@ -11,7 +11,7 @@ $custObj = foreach($u in $users) {
     [PSCustomObject]@{
         FullName = $u.Name
         Active = $u.Enabled
-        Vorname = $u.Surname
+        Nachname = $u.Surname
     }
 }
 Invoke-MyFunctionWithParameters -FullName $custObj.FullName
