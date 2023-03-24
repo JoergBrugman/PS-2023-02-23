@@ -30,3 +30,7 @@ New-NAVWebServerInstance -WebServerInstance $serverName `
     -ManagementServicesPort $newBCServerInfo.ManagementServicesPort `
     -SiteDeploymentType SubSite
 
+Select-guABcServerInfo -OutputName Single | `
+    Get-NAVServerUser | `
+    Select-Object USerName, FullName, Enabled, ChangePassword, LicenseType | `
+    Out-GridView 
