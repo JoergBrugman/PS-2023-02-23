@@ -23,6 +23,9 @@ function New-guABcServerInstance {
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $ClientServicesPort,
         # Parameter help description
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
+        [Int] $ManagementApiServicesPort,
+        # Parameter help description
         [Parameter(Mandatory)]
         [ValidateSet('LocalService', 'LocalSystem', 'NetworkService', 'User')]
         [String] $ServiceAccount,
@@ -39,38 +42,47 @@ function New-guABcServerInstance {
     )
     
     begin {
+        $ReturnValue = $null
         
     }
     
     process {
-        if ($PortOffset -gt 0) {
-            Write-Verbose "PortOffset $PortOffset wird angewendet"
-            $ManagementServicesPort = $ManagementServicesPort + $PortOffset
-            $SOAPServicesPort = $SOAPServicesPort + $PortOffset
-            $ODATAServicesPort = $ODATAServicesPort + $PortOffset
-            $DeveloperServicesPort = $DeveloperServicesPort +$PortOffset
-            $SnapshotDebuggerServicesPort = $SnapshotDebuggerServicesPort + $PortOffset
-            $ClientServicesPort = $ClientServicesPort + $PortOffset 
-        } 
-        Write-Verbose "Server Instance $ServerInstance erstellen"
-        Write-Host "XXXX: $ClientServicesCredentialType"
-        New-NAVServerInstance $ServerInstance `
-            -ManagementServicesPort $ManagementServicesPort -SOAPServicesPort $SOAPServicesPort `
-            -ODataServicesPort $ODataServicesPort -DeveloperServicesPort $DeveloperServicesPort `
-            -SnapshotDebuggerServicesPort $SnapshotDebuggerServicesPort -ClientServicesPort $ClientServicesPort `
-            -ClientServicesCredentialType  $ClientServicesCredentialType `
-            -ServiceAccount $ServiceAccount -ServiceAccountCredential $ServiceAccountCredential
+        # Eine Funktion gibt alles zurück, was nicht von etwas anderem erfasst wird. 
+        # Da wir am Ende nur die neue BcServerInfo zurückgeben möchten, müssen alle anderen "Ausgaben", 
+        # z.B. von New-NavServerInstance abgefangen werden. Daswird dadurch erreicht, dass der gesamte Skriptblock
+        # in folgenden Konstrukt eingepackt wird: 
+        # . { Alle Anweisungen, der Ausgaben unterdrückt werden sollen } | Out-Null 
+        . {
+            if ($PortOffset -gt 0) {
+                Write-Verbose "PortOffset $PortOffset wird angewendet"
+                $ManagementServicesPort += $PortOffset
+                $SOAPServicesPort += $PortOffset
+                $ODATAServicesPort += $PortOffset
+                $DeveloperServicesPort += $PortOffset
+                $SnapshotDebuggerServicesPort += $PortOffset
+                $ClientServicesPort += $PortOffset
+                $ManagementApiServicesPort += $PortOffset 
+            } 
+            Write-Verbose "Server Instance $ServerInstance erstellen"
+            New-NAVServerInstance $ServerInstance `
+                -ManagementServicesPort $ManagementServicesPort -SOAPServicesPort $SOAPServicesPort `
+                -ODataServicesPort $ODataServicesPort -DeveloperServicesPort $DeveloperServicesPort `
+                -SnapshotDebuggerServicesPort $SnapshotDebuggerServicesPort -ClientServicesPort $ClientServicesPort `
+                -ClientServicesCredentialType  $ClientServicesCredentialType `
+                -ServiceAccount $ServiceAccount -ServiceAccountCredential $ServiceAccountCredential
 
-        Write-Verbose "PublicWebBaseUrl konfigurieren"
-        Set-NAVServerConfiguration $ServerInstance -KeyName PublicWebBaseUrl -KeyValue "http://localhost:8080/$ServerInstance"
+            Write-Verbose "ManagementApiServicesPort konfigurieren"
+            Set-NAVServerConfiguration $ServerInstance -KeyName ManagementApiServicesPort -KeyValue $ManagementApiServicesPort
+            Write-Verbose "PublicWebBaseUrl konfigurieren"
+            Set-NAVServerConfiguration $ServerInstance -KeyName PublicWebBaseUrl -KeyValue "http://localhost:8080/$ServerInstance"
 
-        Write-Verbose "ServiceTier $ServerInstance starten"
-        Start-NAVServerInstance -ServerInstance $ServerInstance
-
-        return Get-guABcServerInfo -ServerInstance $ServerInstance
+            Write-Verbose "ServiceTier $ServerInstance starten"
+            Start-NAVServerInstance -ServerInstance $ServerInstance
+        } | Out-Null
     }
     
     end {
+        return Get-guABcServerInfo -ServerInstance $ServerInstance
     }
 }
 

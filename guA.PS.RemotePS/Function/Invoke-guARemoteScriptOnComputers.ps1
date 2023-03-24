@@ -1,14 +1,9 @@
 <#
 .SYNOPSIS
-    PS-Script in VMs ausführen 
+    PS-Script auf Remote-Computern ausführen 
 .DESCRIPTION
-    Die VMs in der Auswahlliste (als Parameter oder Pipe übergeben) werden gestarten
-.PARAMETER SelectedVMs
-    Array mit den Spalten "VM","Node" und "State", auf denen das PS-Script ausgeführt werden soll
-.PARAMETER RemoteScriptName 
-    Pfad des auszuführenden PS-Script 
+    PS-Script auf Remote-Computern ausführen
 .NOTES
-    Kann für Schulungsraum- und Cluster-Images verwendet werden!
 .EXAMPLE
     $selectedVMs = Select-guAClusterVMs
     Execute-RemoteScriptInVMs -SelectedVMs $selectedVMs -RemoteScriptName '.\bsp.ps1'
@@ -16,11 +11,13 @@
 function Invoke-guARemoteScriptOnComputers {
     [CmdletBinding()]
     param(
+        # Computernamen oder IPs
         [parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string[]] $Computername,
+        # Pfad des auszuführenden PS-Script 
         [parameter(Mandatory)]
         [string] $RemoteScriptName,
-        # Parameter help description
+        # Credentials für die Auführung (optional)
         [Parameter()]
         [pscredential] $Credential
     )

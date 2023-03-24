@@ -8,7 +8,6 @@ function Select-guABcServerInfo {
     )
     
     begin {
-        
     }
     
     process {
@@ -16,8 +15,8 @@ function Select-guABcServerInfo {
     }
     
     end {
-        
     }
 }
 
-Export-ModuleMember -Function Select-guABcServerInfo
+Set-Alias -Name Select-guANavServerInfo -Value Select-guABcServerInfo
+Export-ModuleMember -Function Select-guABcServerInfo -Alias Select-guABcServerInfo

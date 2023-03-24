@@ -12,3 +12,5 @@ foreach ($f in $functFolder) {
         . (Join-Path -Path $functPath -ChildPath $funct)
     } 
 }
+
+Write-guAAdminToolWelcomeText

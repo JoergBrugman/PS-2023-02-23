@@ -20,7 +20,7 @@ if ($null -ne $scriptName) {
 }
 #endregion
 
-$jb =Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer -RemoteScriptName $scriptName
+$ret =Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer -RemoteScriptName $scriptName
 
 #region *** Credentials vorbereiten
 $username = "ah@guatrain.local"
@@ -28,7 +28,7 @@ $password = convertto-securestring "EiWoha7T@" -AsPlainText -Force
 $cred = new-object -typename System.Management.Automation.PSCredential `
     -argumentlist $username, $password
 #endregion
-# Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer `
-#     -RemoteScriptName $scriptName -Credential $cred
+Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer `
+    -RemoteScriptName $scriptName -Credential $cred
 
 # Invoke-Command -ComputerName 10.11.1.190 -Authentication Negotiate -ScriptBlock {whoami} 

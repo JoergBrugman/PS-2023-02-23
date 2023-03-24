@@ -1,5 +1,5 @@
-. 'C:\Program Files\Microsoft Dynamics 365 Business Central\210\Service\NavAdminTool.ps1'
-Import-Module C:\Users\guauser\Documents\PS\guA.BC.AdminTool\guA.BC.AdminTool.psm1 -Force
+Import-Module C:\Users\guauser\Documents\PS\guA.BC.AdminTool\guA.BC.AdminTool.psm1 -Force 
+. (Get-guANavAdminTool).FullName -Force | Out-Null
 
-$x = Get-guABcServerInfo
+Get-guABcServerInfo
 Get-guANavServerInfo -ServerInstance BC210

@@ -30,8 +30,9 @@ function Enable-guAWSManCredSSP {
 #region **** WinRM-Dienst konfigurieren
 Stop-Service WinRM
 Set-Service WinRM -StartupType Automatic
-#WinRM set winrm/config/client '@{TrustedHosts ="10.11.1.0"}'
-Set-Item WSMan:\localhost\Client\TrustedHosts -Value "10.11.1.*" # oder alternativ auch so... 
+Start-Service WinRM
+#WinRM set winrm/config/client '@{TrustedHosts ="10.11.1.*"}'
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "10.11.1.*" -Force # oder alternativ auch so... 
 Restart-Service WinRM
 #endregion
 

@@ -1,5 +1,5 @@
-. 'C:\Program Files\Microsoft Dynamics 365 Business Central\210\Service\NavAdminTool.ps1'
 Import-Module C:\Users\guauser\Documents\PS\guA.BC.AdminTool\guA.BC.AdminTool.psm1 -Force
+. (Get-guANavAdminTool).FullName -Force | Out-Null
 
 # Server auswählen
 # $bcServerInfos = Get-guABcServerInfo;
@@ -18,15 +18,15 @@ $serverName = Read-Host "Servername [$($defaulServerName)] mit <Enter> bestätige
 $serverName = ($defaulServerName, $serverName)[[bool]$serverName]
 
 # Neuen Server erstellen
-$newBCServerInfo = $selBcServerInfo | `
-    New-guABCServerInstance $serverName -PortOffset 1000 -ServiceAccount User -ServiceAccountCredential $Cred -Verbose
+$newBCServerInfo = $selBcServerInfo | New-guABCServerInstance $serverName -PortOffset 100 -ServiceAccount User -ServiceAccountCredential $Cred -Verbose
 
 
 # Passende WebServer-Instanz erstellen
 New-NAVWebServerInstance -WebServerInstance $serverName `
     -ServerInstance $serverName `
     -Server localhost `
-    -ClientServicesCredentialType ([string]$newBCServerInfo.ClientServicesCredentialType).TrimStart() `
+    -ClientServicesCredentialType $newBCServerInfo.ClientServicesCredentialType `
     -ClientServicesPort $newBCServerInfo.ClientServicesPort `
     -ManagementServicesPort $newBCServerInfo.ManagementServicesPort `
     -SiteDeploymentType SubSite
+

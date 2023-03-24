@@ -1,0 +1,47 @@
+// TODO Snippet für psm1-Datei machen
+{
+  "Snippet (get&use Academy): Module psm1": {
+    "prefix": "module-psm1",
+    "body": [
+      "# Liste der Subfolder mit zu ladenden Funktionen",
+      "\\$functFolder = @(${1:'Function', 'Helper'})",
+      "# Unterverzeichnisse nacheinander durchgehen ",
+      "foreach (\\$f in \\$functFolder) {",
+      "    # Kompletten Subfolder Path erstellen ",
+      "    $\\functPath = Join-Path -Path \\$PSScriptRoot -ChildPath \\$f",
+      "    # Liste mit allen Funktionsskriptnamen erstellen",
+      "    \\$functList = Get-ChildItem -Path \\$functPath -Name -ErrorAction SilentlyContinue",
+      "    # Alle Funktionsskripte mit dot sourcing laden",
+      "    foreach (\\$funct in \\$functList) {",
+      "        . (Join-Path -Path \\$functPath -ChildPath \\$funct)",
+      "    } ",
+      "}",
+      ""
+    ],
+    "description": "Snippet (get&use Academy): Module psm1"
+  },
+  "Snippet (get&use Academy): Function Help": {
+    "prefix": [
+      "help-function",
+      "comment-help"
+    ],
+    "description": "Comment-based help for an advanced function. More: Get-Help about_Comment_Based_Help",
+    "body": [
+      "<#",
+      ".SYNOPSIS",
+      "\t${1:A short one-line action-based description, e.g. 'Tests if a function is valid'}",
+      ".DESCRIPTION",
+      "\t${2:A longer description of the function, its purpose, common use cases, etc.}",
+      ".NOTES",
+      "\t${3:Information or caveats about the function e.g. 'This function is not supported in Linux'}",
+      ".LINK",
+      "\t${4:Specify a URI to a help page, this will show when Get-Help -Online is used.}",
+      ".EXAMPLE",
+      "\t${5:Test-MyTestFunction -Verbose}",
+      "\t${6:Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines}",
+      "#>",
+      "",
+      "${0:$TM_SELECTED_TEXT}"
+    ]
+  }
+}

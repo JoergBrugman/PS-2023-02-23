@@ -1,44 +1,53 @@
 <#
 .SYNOPSIS
-    Demo von Paramtern
+    Demo für eine Funktion mit Parametern
 .DESCRIPTION
-    Diese Funktion zeigt die Verwendung Parametern und das Verhalten der unterschiedliche 
-    Verhalten der Funktion mit direkt Ã¼bergebenen Paramtern und Parametern, die Ã¼ber 
-    eine Pipeline reinkommen 
+    Diese Funktion zeigt die Verwendung verschiedener Argumente für das 
+    Parameter-Attribut [Parameter(Argumnet1, Argument2, ...)] 
+    Behandelte Argumente:
+        - Position = 0
+        - Mandatory
+        - ValueFromPipelineByPropertyName
 .NOTES
-    
-.LINK
-    
 .EXAMPLE
-    Invoke-MyFunctionWitParameters -FullName @('Hans Huber','Karin Schreck')
+    Invoke-MyFunctionWithParameters -Name " Hans Huber"
 .EXAMPLE
-    @('Hans Huber','Karin Schreck') | Invoke-MyFunctionWitParameters
+    Invoke-MyFunctionWithParameters @('Hans Huber', 'Peter Müller')
+.EXAMPLE
+    @('Hans Huber', 'Peter MÃ¼ller') | Invoke-MyFunctionWithParameters 
+.EXAMPLE
+    $adUser = Get-ADUser -Filter *; Invoke-MyFunctionWithParameters -Name $adUser.Name
+.EXAMPLE
+    Get-ADUser -Filter * | Invoke-MyFunctionWithParameters
 #>
 function Invoke-MyFunctionWithParameters {
     [CmdletBinding()]
     param (
-        # Namen, die verarbeitet werden sollen
-        [Parameter(Mandatory,Position=0,ValueFromPipelineByPropertyName,ValueFromPipeline)]
+        # Parameterbeschreibungen sollten immer als Kommentar direkt vor der Parameterdefinition erfolgen.
+        # So lässt sich Code und Doku besser zusammenhalten!
+        # Namen für die Funktion 
+        [Parameter(Mandatory, Position = 0, ValueFromPipelineByPropertyName, ValueFromPipeline)]
         [string[]]
-        $FullName
+        $Name
     )
     
     begin {
-       Write-Host "BEGIN: $FullName" 
+        Write-Host "BEGIN: $Name / $($Name.Count)" 
     }
     
     process {
-        Write-Host "PROCESS: $FullName"
-        foreach ($n in $FullName) {
+        Write-Host "PROCESS: $Name / $($Name.Count)"
+        foreach ($n in $Name) {
             Write-Host "  - $n"
         }
     }
     
     end {
-        Write-Host "END: $FullName" 
+        Write-Host "END: $Name / $($Name.Count)" 
         
     }
 }
+
 
 New-Alias -Name imfwp -Value Invoke-MyFunctionWithParameters
 Export-ModuleMember -Function Invoke-MyFunctionWithParameters -Alias imfwp
