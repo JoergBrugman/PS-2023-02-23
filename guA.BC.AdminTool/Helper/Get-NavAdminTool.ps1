@@ -1,3 +1,14 @@
+<#
+.SYNOPSIS
+    Pfad und Name der NavAdminTool.ps1 ermitteln
+.DESCRIPTION
+    Pfad und Name der NavAdminTool.ps1 ermitteln
+.NOTES
+.LINK
+.EXAMPLE
+    . (Get-guANavAdminTool).FullName
+    Es wird die Datei NavAdminTool.ps1 ermittelt und dann geladen.
+#>
 function Get-guANavAdminTool {
     [CmdletBinding()]
     param ( )

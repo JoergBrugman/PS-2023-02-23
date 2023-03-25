@@ -1,49 +1,61 @@
+<#
+.SYNOPSIS
+    Erstellt eine neue BC Server Instance (ServiceTier)
+.DESCRIPTION
+    Erstellt eine neue BC Server Instance (ServiceTier). Die angegebenen Ports können mit einem Offset vor der Erstellung modifiziert werden.
+    Nach der Erstellung wird die neue Server Instance gestartet.
+.NOTES
+    Information or caveats about the function e.g. 'This function is not supported in Linux'
+.LINK
+    Specify a URI to a help page, this will show when Get-Help -Online is used.
+.EXAMPLE
+    $newBCServerInfo = Select-guABcServerInfo | New-guABCServerInstance 'BC' -PortOffset 100 -ServiceAccount User -ServiceAccountCredential $Cred -Verbose
+    Nach der Auswahl einer Server Instance wird auf deren Basis eine neue Server Instance erzeugt. Deren ServerInfo wird in der Variablen $newBCServerInfo gespeichert.
+#>
 function New-guABcServerInstance {
     [CmdletBinding()]
     param (
-        # Parameter help description
+        # ServerInstance
         [Parameter(Mandatory, Position = 0)]
         [String] $ServerInstance,
-        # Parameter help description
+        # ManagementServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $ManagementServicesPort,
-        # Parameter help description
+        # SOAPServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $SOAPServicesPort,
-        # Parameter help description
+        # ODATAServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $ODATAServicesPort,
-        # Parameter help description
+        # DeveloperServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $DeveloperServicesPort,
-        # Parameter help description
+        # SnapshotDebuggerServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $SnapshotDebuggerServicesPort,
-        # Parameter help description
+        # ClientServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $ClientServicesPort,
-        # Parameter help description
+        # ManagementApiServicesPort
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [Int] $ManagementApiServicesPort,
-        # Parameter help description
+        # ServiceAccount ('LocalService', 'LocalSystem', 'NetworkService', 'User')
         [Parameter(Mandatory)]
         [ValidateSet('LocalService', 'LocalSystem', 'NetworkService', 'User')]
         [String] $ServiceAccount,
-        # Parameter help description
+        # ServiceAccountCredential
         [Parameter()]
         [PSCredential] $ServiceAccountCredential,
-        # Parameter help description
+        # PortOffset
         [Parameter()]  [ValidateScript({ $_ -ge 0 })]
         [Int] $PortOffset,
-        # Parameter help description
+        # ClientServicesCredentialType ("Windows", "NavUserPassword")
         [Parameter()]
         [ValidateSet("Windows", "NavUserPassword")]
         [String] $ClientServicesCredentialType = "Windows"
     )
     
     begin {
-        $ReturnValue = $null
-        
     }
     
     process {

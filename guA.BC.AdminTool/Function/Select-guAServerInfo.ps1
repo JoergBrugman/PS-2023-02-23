@@ -1,10 +1,21 @@
+<#
+.SYNOPSIS
+    Auswahl einer Business Central Server-Instanz mit anschlieﬂender R¸ckgabe der Dienstdetails und Konfiguration.
+.DESCRIPTION
+    Auswahl einer Business Central Server-Instanz mit anschlieﬂender R¸ckgabe der Dienstdetails und Konfiguration.
+.NOTES
+.LINK
+.EXAMPLE
+    $ServerInfo = Select-guABcServerInfo
+    Auswahl einer einzelnen Server-Instanz. Die ServerInfo wird in der Variablen $ServerInfo gespeichert.
+#>
 function Select-guABcServerInfo {
     [CmdletBinding()]
     param (
-        # Eine oder meherere ServerInfo(s) ausw√§hlen
+        # OutputMode ("Single","Multiple")
         [Parameter()]
         [ValidateSet("Single","Multiple")]
-        $OutputName = 'Single'
+        $OutputMode = 'Single'
     )
     
     begin {

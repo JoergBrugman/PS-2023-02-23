@@ -19,7 +19,6 @@ if ($null -ne $scriptName) {
     $scriptName = (Get-ChildItem -Path $PSScriptRoot\RemoteScripte -File | Where-Object { $_.Name -like $scriptName.Name }).FullName
 }
 #endregion
-
 $ret =Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer -RemoteScriptName $scriptName
 
 #region *** Credentials vorbereiten
@@ -31,4 +30,3 @@ $cred = new-object -typename System.Management.Automation.PSCredential `
 Invoke-guARemoteScriptOnComputers -Computername $selComputers.Computer `
     -RemoteScriptName $scriptName -Credential $cred
 
-# Invoke-Command -ComputerName 10.11.1.190 -Authentication Negotiate -ScriptBlock {whoami} 

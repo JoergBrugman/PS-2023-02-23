@@ -5,8 +5,8 @@
     PS-Script auf Remote-Computern ausführen
 .NOTES
 .EXAMPLE
-    $selectedVMs = Select-guAClusterVMs
-    Execute-RemoteScriptInVMs -SelectedVMs $selectedVMs -RemoteScriptName '.\bsp.ps1'
+    Invoke-guARemoteScriptOnComputers -Computername 10.11.1.177,10.11.1.178 -RemoteScriptName '.\bsp.ps1'
+    Auf den Computern mit der IP 10.11.1.177 und 10.11.1.178 wird das PS-Skript bsp.ps1 remote ausgeführt.
 #>
 function Invoke-guARemoteScriptOnComputers {
     [CmdletBinding()]

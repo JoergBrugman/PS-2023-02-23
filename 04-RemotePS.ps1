@@ -43,7 +43,7 @@ $cred = new-object -typename System.Management.Automation.PSCredential `
     -argumentlist $username, $password
 #endregion
 
-#region **** FÃ¼r die Demo Infos zu unseren Schulungs-VMs ermitteln...
+#region **** Für die Demo Infos zu unseren Schulungs-VMs ermitteln...
 Get-Date
 $computers = @()
 for ($i = 176; $i -le 182; $i++) {
@@ -55,7 +55,7 @@ for ($i = 176; $i -le 182; $i++) {
 Get-Date
 #endregion
 
-#region *** Jetzt einen ScriptBlock vorbereiten und diesen per Remote-PS auf den ermittelten Rechnern ausfÃ¼hren...
+#region *** Jetzt einen ScriptBlock vorbereiten und diesen per Remote-PS auf den ermittelten Rechnern ausführen...
 $sb = { param($p1) Write-Host "Auf Rechner $p1 : $(whoami.exe)" }
 foreach ($c in $computers) {
     Invoke-Command -ComputerName $c.Computer -ScriptBlock $sb -ArgumentList ($c.Computer) -Credential $cred -Authentication Negotiate
@@ -64,7 +64,6 @@ foreach ($c in $computers) {
 foreach ($c in $computers) {
     Invoke-Command -ComputerName $c.Computer -ScriptBlock $sb -ArgumentList ($c.Computer)  -Authentication NegotiateWithImplicitCredential
 }
-
 #endregion
 
 
